@@ -12,7 +12,7 @@ int main(void) {
     for (;;) {
         union { unsigned char u[1000]; char s[1000]; }  password;
         int len = sprintf(password.s, "%s%d", key, n);
-        MD5(password.u, strlen(password.s), hash);
+        MD5(password.u, len, hash);
         if ((hash[0] == 0) && (hash[1] == 0) && (hash[2] == 0)) break;
         n++;
     }
