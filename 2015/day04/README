@@ -1,4 +1,4 @@
 Needs openssl (for MD5).
 Compile with libcrypto.
 
-gcc ... 04a.c ... -lcrypto
+gcc ... -lcrypto
