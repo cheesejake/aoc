@@ -1,0 +1,5 @@
+I just simply build the nodes with accumulated weight
+and then look for the answer in the output of the whole thing
+
+
+./a.out <data | sort -k 7,9 | less
