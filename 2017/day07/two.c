@@ -113,6 +113,10 @@ int updatelevels(struct Program *p, int np) {
     return sums;
 }
 
+void sortstack(struct Program *p, int np) {
+    if (p || np) /* void */;
+}
+
 int main(void) {
     char buf[1000];
     struct Program p[20000] = {0};
@@ -128,6 +132,7 @@ int main(void) {
     for (int k = maxlevel; k > 0; k--) {
         accumlevel(p, np, k);
     }
+    sortstack(p, np);
     printstack(p, np);
     return 0;
 }
