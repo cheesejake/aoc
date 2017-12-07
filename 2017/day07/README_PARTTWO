@@ -1,5 +1,17 @@
-I just simply build the nodes with accumulated weight
-and then look for the answer in the output of the whole thing
+For today's (day 7) part two, I "cheated" :)
+
+My program simply accumulates the weights and calculates level
+in the structure (not in a recursive manner!), then outputs
+the resulting values.
+
+By sorting the output by level and name (I could easily do
+that within the code, but I had "wasted" too much time already),
+then following the node with difference, it was easy to eyeball
+the one that needed to be changed.
 
 
 ./a.out <data | sort -k 7,9 | less
+
+
+Maybe next version I'll code the sorting and just
+keep the eyeballing as "cheating".
