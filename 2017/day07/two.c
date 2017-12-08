@@ -113,8 +113,12 @@ int updatelevels(struct Program *p, int np) {
     return sums;
 }
 
-void sortstack(struct Program *p, int np) {
-    if (p || np) /* void */;
+int sortp(const void *aa, const void *bb) {
+    const struct Program *a = aa;
+    const struct Program *b = bb;
+    if (a->level > b->level) return 1;
+    if (a->level < b->level) return -1;
+    return strcmp(a->supporter, b->supporter);
 }
 
 int main(void) {
@@ -132,7 +136,7 @@ int main(void) {
     for (int k = maxlevel; k > 0; k--) {
         accumlevel(p, np, k);
     }
-    sortstack(p, np);
+    qsort(p, np, sizeof *p, sortp);
     printstack(p, np);
     return 0;
 }
