@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+int CJstreq(const char *a, const char *b) {
+    return !strcmp(a, b);
+}
+
+int CJstrneq(const char *a, const char *b, size_t n) {
+    return !strncmp(a, b, n);
+}
+
 void axial2cube(int dr, int dq, int *x, int *y, int *z) {
     *x = dr;
     *z = dq;
@@ -19,12 +27,12 @@ void process(char *data) {
     int dr = 0, dq = 0;
     int skip;
     while (*data) {
-             if (strncmp(data, "ne", 2) == 0) { dr += 1; dq -= 1; skip = 2; }
-        else if (strncmp(data, "sw", 2) == 0) { dr -= 1; dq += 1; skip = 2; }
-        else if (strncmp(data, "nw", 2) == 0) { dr -= 1;          skip = 2; }
-        else if (strncmp(data, "se", 2) == 0) { dr += 1;          skip = 2; }
-        else if (strncmp(data, "n",  1) == 0) {          dq -= 1; skip = 1; }
-        else if (strncmp(data, "s",  1) == 0) {          dq += 1; skip = 1; }
+             if (CJstrneq(data, "ne", 2)) { dr += 1; dq -= 1; skip = 2; }
+        else if (CJstrneq(data, "sw", 2)) { dr -= 1; dq += 1; skip = 2; }
+        else if (CJstrneq(data, "nw", 2)) { dr -= 1;          skip = 2; }
+        else if (CJstrneq(data, "se", 2)) { dr += 1;          skip = 2; }
+        else if (CJstrneq(data, "n",  1)) {          dq -= 1; skip = 1; }
+        else if (CJstrneq(data, "s",  1)) {          dq += 1; skip = 1; }
         else { fprintf(stderr, "invalid input.\n"); exit(EXIT_FAILURE); }
         data += skip;
         if (*data == ',') data++;
