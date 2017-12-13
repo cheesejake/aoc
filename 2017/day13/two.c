@@ -32,7 +32,7 @@ void copyscanner(struct Scanner *dst, struct Scanner *src, int n) {
 }
 
 int main(void) {
-    struct Scanner scan[200] = {0};
+    struct Scanner scan[200];
     struct Scanner scab[200] = {0};
     int maxdepth = 0;
     char buf[1000];
@@ -44,16 +44,14 @@ int main(void) {
         if (depth > maxdepth) maxdepth = depth;
         p++;
         int range = strtol(p, NULL, 10);
-        scan[depth].range = range;
-        scan[depth].direction = 1;
+        scab[depth].range = range;
+        scab[depth].direction = 1;
     }
-    copyscanner(scab, scan, 200); // scab = scan;
     do {
         delay += 1;
         caught = 0;
+        movescanners(scab, 200);
         copyscanner(scan, scab, 200); // scan = scab;
-        movescanners(scan, 200);
-        copyscanner(scab, scan, 200); // scab = scan;
         for (int ps = 0; ps <= maxdepth; ps++) {
             if (scan[ps].direction) {
                 if (scan[ps].pos == 0) {
