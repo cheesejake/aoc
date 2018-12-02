@@ -1,0 +1,7 @@
+s" abcdef"
+s" bababc"
+s" abbcde"
+s" abcccd"
+s" aabcdd"
+s" abcdee"
+s" ababab"
