@@ -1,5 +1,5 @@
 \ call with
-\ gforth-fast input one.fs -e bye
+\ gforth-fast input one.fs
 
 variable kk2 0 kk2 !
 variable kk3 0 kk3 !
@@ -35,4 +35,4 @@ create c-letters-in-word 200 chars allot
    kk2 @ kk3 @ *
 ;
 
-checksum . cr
+checksum . cr bye

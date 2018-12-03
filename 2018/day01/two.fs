@@ -1,5 +1,5 @@
 \ call with
-\ gforth-fast -m3M input.txt two.fs -e bye
+\ gforth-fast -m3M input.txt two.fs
 \             ^^^^ larger dictionary size
 
 1000000 constant LIMIT
@@ -60,4 +60,4 @@ create seq 1000 cells allot
    repeat
 ;
 
-find-1st freq ? cr
+find-1st freq ? cr bye
