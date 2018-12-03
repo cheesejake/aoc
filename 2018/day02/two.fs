@@ -50,10 +50,23 @@ variable @tmp2               \ multi use local variable
    loop
 ;
 
+: printequalchars ( id1 id2 -- )
+   @tmp2 ! @tmp1 !
+   @idlen @ 0 do
+      i @tmp1 @ boxchar
+      i @tmp2 @ boxchar
+      over = if emit 0 then
+      drop \ drop 0 if they were equal, drop whatever if they were different
+   loop
+   cr
+;
+
 depth 2 / @nboxes !
 dup @idlen !
 here @boxids ! @idlen @ @nboxes @ * chars allot
 save-words
 \ seewords
 bubblecompare
-printboxid printboxid
+\ printboxid printboxid
+printequalchars
+bye
