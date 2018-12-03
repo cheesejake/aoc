@@ -11,7 +11,7 @@ create map 1000 1000 * chars allot
    >r >r drop r> r> r> 1 + r> ( w+l l t+h+1 t )
 ;
 
-: mapcount (id1 l1 t1 w1 h1 id2 l2 t2 w2 h2 ... idN lN tN wN hN -- )
+: mapcount ( id1 l1 t1 w1 h1 id2 l2 t2 w2 h2 ... idN lN tN wN hN -- )
    begin
        organize-stack
        do do
@@ -19,6 +19,6 @@ create map 1000 1000 * chars allot
    depth 0 = until
 ;
 
-depth @n 5 / !
-mapcount
-cr bye
+depth 5 / @n !
+\ mapcount
+\ cr bye
