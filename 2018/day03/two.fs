@@ -4,56 +4,55 @@
 \                   ^^^^^^^ data stack size
 
 variable tmp
-create inputs 1500 5 * cells allot
 variable ninputs 0 ninputs !
+create inputs 1500 6 * cells allot
 create map 1010 1010 * cells allot
 
-: organize-stack ( ... x l t w h -- ... w+l l h+t t x )
-   ." before organize" space .s cr
-   >r swap >r >r >r tmp !         ( ... ) ( R: h t w l ) \ x in tmp
-   r> dup r>                      ( ... l l w ) ( R: h t ) \ x in tmp
-   + swap                         ( ... w+l l ) ( R: h t ) \ x in tmp
-   r> dup r>                      ( ... w+l l t t h ) \ x in tmp
-   + swap tmp @                   ( ... w+l l h+t t x )
-   ." after organize" space .s cr
+: organize-stack ( ... x l t w h -- ... x w+l l t h+t )
+   >r swap >r                     ( ... x l w ) ( R: h t )
+   over +                         ( ... x l w+l ) ( R: h t )
+   r> dup r> +                    ( ... x l w+l t h+t )
 ;
 
 : saveinputs ( id1 l1 t1 w1 h1 id2 l2 t2 w2 h2 ... idN lN tN wN hN -- )
    begin
-       organize-stack
-       drop \ inputs[ninputs][0] ! \ id
-       drop \ inputs[ninputs][1] ! \ t
-       drop \ inputs[ninputs][2] ! \ h+t
-       drop \ inputs[ninputs][3] ! \ l
-       drop \ inputs[ninputs][4] ! \ w+l
-       ninputs dup @ 1 + !
+      organize-stack
+      inputs ninputs @ 6 * cells + >r \ base address
+      r@ 4 cells + ! \ inputs[ninputs][4] = h+t
+      r@ 3 cells + ! \ inputs[ninputs][3] = t
+      r@ 2 cells + ! \ inputs[ninputs][1] = w+l
+      r@ 1 cells + ! \ inputs[ninputs][2] = l
+      r@ 0 cells + ! \ inputs[ninputs][0] = id
+      0 r> 5 cells + ! \ inputs[ninputs][6] = 0
+      ninputs dup @ 1 + swap !
    depth 0 = until
 ;
 
 : mapareas1 ( -- )
-   begin
-      organize-stack
-      tmp !
-      do
-         2dup do
+   ninputs @ 0 do
+      inputs i 6 * cells + tmp ! \ base address
+      tmp @ 2 cells + @ tmp @ 1 cells + @ do
+         tmp @ 4 cells + @ tmp @ 3 cells + @ do
             map i 1010 * j + cells + @
-            dup 0 < if drop -1 then
-            dup 0 > if drop -1 then
-            dup 0 = if drop tmp @ then
+            dup 0 > if drop -1 then                \ if used fill with -1
+            dup 0 = if drop tmp @ 0 cells + @ then \ if empty fill with this ID
             map i 1010 * j + cells + !
          loop
-      loop 2drop
-   depth 0 = until
+      loop
+   loop
 ;
 
 : mapareas2 ( -- )
-   1010 0 do 1010 0 do
-      map i 1010 * j + cells + @
-      dup 0 < if drop -1 then
-      dup 0 > if drop -1 then
-      dup 0 = if drop tmp @ then
-      map i 1010 * j + cells + !
-   loop loop
+   ninputs @ 0 do
+      inputs i 6 * cells + tmp ! \ base address
+      tmp @ 2 cells + @ tmp @ 1 cells + @ do
+         tmp @ 4 cells + @ tmp @ 3 cells + @ do
+            map i 1010 * j + cells + @             \ value on map
+            tmp @ 0 cells + @                      \ this ID
+            = invert if -1 tmp @ 5 cells + ! then  \ flag this input
+         loop
+      loop
+   loop
 ;
 
 : zeromap ( -- )
@@ -62,30 +61,16 @@ create map 1010 1010 * cells allot
    loop loop
 ;
 
-\ show the n by n top left corner of the map
-: showmap ( n -- )
-   ." ==> showmap start" space .s cr
-   dup 0 do
-      dup 0 do
-          map i 1010 * j + cells + @ .
-      loop
-      cr
+: pushunflagged ( -- n ...) \ hopefully pushes exactly 1 n
+   ninputs @ 0 do
+      inputs i 6 * cells + tmp ! \ base address
+      tmp @ 5 cells + @ 0 = if tmp @ 0 cells + @ then
    loop
-   ." ==> showmap finished" space .s cr
 ;
 
-: counttwos ( -- n )
-   0                     \ starting count
-   1010 0 do 1010 0 do
-      map i 1010 * j + cells + @
-      dup 1 > if swap 1 + swap then
-      drop
-   loop loop
-;
-
+saveinputs
 zeromap ." zeromap ok" space cr
 mapareas1 ." mapareas1 ok" space cr
 mapareas2 ." mapareas2 ok" space cr
-8 showmap
-\ counttwos
-. cr bye
+pushunflagged
+.s cr bye
