@@ -1,7 +1,8 @@
 \ call with
-\ gforth-fast -m 9M -d 100k .justnumbers-input.txt one.fs
+\ gforth-fast -m 9M -d 100k .justnumbers-input.txt two.fs
 \             ^^^^^ dictionary size
 \                   ^^^^^^^ data stack size
+\ thyen execute doit and bye
 
 variable tmp
 variable ninputs 0 ninputs !
@@ -68,9 +69,11 @@ create map 1010 1010 * cells allot
    loop
 ;
 
-saveinputs
-zeromap ." zeromap ok" space cr
-mapareas1 ." mapareas1 ok" space cr
-mapareas2 ." mapareas2 ok" space cr
-pushunflagged
-.s cr bye
+: doit
+   saveinputs
+   zeromap ." zeromap ok" space cr
+   mapareas1 ." mapareas1 ok" space cr
+   mapareas2 ." mapareas2 ok" space cr
+   pushunflagged
+   .s cr
+;

@@ -1,6 +1,7 @@
 \ call with
 \ gforth-fast -d 100k .justnumbers-input.txt one.fs
 \             ^^^^^^^ data stack size
+\ then execute doit and bye
 
 variable areas
 create map 1010 1010 * chars allot
@@ -57,8 +58,10 @@ create map 1010 1010 * chars allot
    loop loop
 ;
 
-zeromap ." zeromap ok" space cr
-mapareas ." mapareas ok" space cr
-\ 8 showmap
-counttwos
-. cr bye
+: doit
+   zeromap ." zeromap ok" space cr
+   mapareas ." mapareas ok" space cr
+   \ 8 showmap
+   counttwos
+   . cr
+;

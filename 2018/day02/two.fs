@@ -1,5 +1,6 @@
 \ call with
-\ gforth-fast input two.fs -e bye
+\ gforth-fast .string-input.txt two.fs
+\ then execute doit and bye
 
 variable @nboxes 0 @nboxes ! \ number of boxes
 variable @idlen              \ length of id of first box
@@ -61,12 +62,13 @@ variable @tmp2               \ multi use local variable
    cr
 ;
 
-depth 2 / @nboxes !
-dup @idlen !
-here @boxids ! @idlen @ @nboxes @ * chars allot
-save-words
-\ seewords
-bubblecompare
-\ printboxid printboxid
-printequalchars
-bye
+: doit
+   depth 2 / @nboxes !
+   dup @idlen !
+   here @boxids ! @idlen @ @nboxes @ * chars allot
+   save-words
+   \ seewords
+   bubblecompare
+   \ printboxid printboxid
+   printequalchars
+;
