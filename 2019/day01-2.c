@@ -9,9 +9,6 @@ int fuel4mass(int mass) {
 }
 
 int main(void) {
-    printf("fuel requirements for module of mass 14: %d\n", fuel4mass(14));
-    printf("fuel requirements for module of mass 1969: %d\n", fuel4mass(1969));
-    printf("fuel requirements for module of mass 100756: %d\n", fuel4mass(100756));
     int total = 0;
     char buf[100];
     while (fgets(buf, sizeof buf, stdin)) {
