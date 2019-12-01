@@ -3,6 +3,9 @@
 // assume everything 'works'
 // ie: well-formed input, values in range, no overflows
 
+// program expects data to be in stdin, call it with the syntax
+// $ ./a.out <01-input.txt
+
 int fuel(int mass) {
     if (mass < 9) return 0;
     int tmp = mass / 3 - 2;
