@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 // assume everything 'works'
 // ie: well-formed input, values in range, no overflows
