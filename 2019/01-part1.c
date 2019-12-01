@@ -3,8 +3,9 @@
 // assume everything 'works'
 // ie: well-formed input, values in range, no overflows
 
-// program expects data to be in stdin, call it with the syntax
+// program expects data to be in stdin, call it like below
 // $ ./a.out <01.txt
+// $ echo 100756 | ./a.out
 
 int main(void) {
     int mass, total = 0;
