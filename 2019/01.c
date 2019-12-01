@@ -15,7 +15,7 @@ int main(void) {
         total1 += mass / 3 - 2;         // integer (truncating) division
         total2 += fuel(mass);
     }
-    printf("fuel requirements for all modules: %d\n", total1);
-    printf("fuel requirements for all modules and fuel: %d\n", total2);
+    printf("Fuel requirements for all modules: %d\n", total1);
+    printf("Fuel requirements for all modules and fuel: %d\n", total2);
     return 0;
 }

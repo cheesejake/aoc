@@ -8,6 +8,6 @@ int main(void) {
     while (scanf("%d", &mass) == 1) {
         total += mass / 3 - 2;         // integer (truncating) division
     }
-    printf("fuel requirements for all modules: %d\n", total);
+    printf("Fuel requirements for all modules: %d\n", total);
     return 0;
 }
