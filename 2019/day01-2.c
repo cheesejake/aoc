@@ -15,5 +15,5 @@ int main(void) {
         int mass = strtol(buf, 0, 10);
         total += fuel4mass(mass);
     }
-    printf("fuel requirements for all modules: %d\n", total);
+    printf("fuel requirements for all modules and fuel: %d\n", total);
 }
