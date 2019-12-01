@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// assume well-formed input, in range values, or that
-// everything 'works'
+// assume everything 'works'
+// ie: well-formed input, values in range, no overflows
 
 int fuel4mass(int mass) {
     if (mass < 3) return 0;
@@ -12,12 +12,10 @@ int fuel4mass(int mass) {
 }
 
 int main(void) {
-    int total = 0;
-    char buf[100];                     // more than enough space
-    while (fgets(buf, sizeof buf, stdin)) {
-        int mass = strtol(buf, 0, 10); // missing error checking
+    int mass, total = 0;
+    while (scanf("%d", &mass) == 1) {
         total += fuel4mass(mass);      // assume no overflow
     }
     printf("fuel requirements for all modules and fuel: %d\n", total);
-    return 9;
+    return 0;
 }
