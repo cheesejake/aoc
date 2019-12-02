@@ -9,8 +9,10 @@
 // $ ./a.out <02.txt
 // $ echo 1,0,0,0,99 | ./a.out
 
+#define INPUTSIZE 250                  // enough for my input
+
 int main(void) {
-    int basememory[250];               // enough for my input
+    int basememory[INPUTSIZE];
     int n = 0;
     while (scanf("%d", &basememory[n]) == 1) {
         getchar();                     // read & ignore comma (or newline)
@@ -18,7 +20,7 @@ int main(void) {
     }
     for (int noun = 0; noun < 100; noun++) {
         for (int verb = 0; verb < 100; verb++) {
-            int intcode[150];
+            int intcode[INPUTSIZE];
             memmove(intcode, basememory, n * sizeof *basememory);
             intcode[1] = noun;
             intcode[2] = verb;

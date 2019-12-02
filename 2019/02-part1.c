@@ -8,8 +8,10 @@
 // $ ./a.out <02.txt
 // $ echo 1,0,0,0,99 | ./a.out
 
+#define INPUTSIZE 250                  // enough for my input
+
 int main(void) {
-    int intcode[250];                  // enough for my input
+    int intcode[INPUTSIZE];
     int n = 0;
     while (scanf("%d", &intcode[n]) == 1) {
         getchar();                     // read & ignore comma (or newline)
