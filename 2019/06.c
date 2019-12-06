@@ -14,71 +14,65 @@
 #define NUMLINES 1500                  // enough for my input
 #define NUMOBJECTS (NUMLINES * 2)
 
-struct Object {
+struct Vertex {
     char name[4];
-    int distance;
+    int *list;
+    int nlist;
 };
 
-struct ObjectArray {
-    struct Object o[NUMOBJECTS];
-    int no;
+struct VertexArray {
+    struct Vertex v[NUMOBJECTS];
+    int nv;
 };
 
-struct Object *find(const char *name, struct ObjectArray *p) {
-    for (int k = 0; k < p->no; k++) {
-        if (strncmp(name, p->o[k].name, 3) == 0) return p->o + k;
+int find(const char *name, struct VertexArray *p) {
+    for (int k = 0; k < p->nv; k++) {
+        if (strncmp(name, p->v[k].name, 3) == 0) return k;
     }
-    return NULL;
+    return -1;
 }
 
-struct Object *findoradd(const char *name, struct ObjectArray *p) {
-    struct Object *tmp = find(name, p);
-    if (tmp == NULL) {
-        tmp = p->o + p->no;
-        sprintf(p->o[p->no].name, "%.3s", name);
-        p->no += 1;
+int findoradd(const char *name, struct VertexArray *p) {
+    int tmp = find(name, p);
+    if (tmp == -1) {
+        tmp = p->nv;
+        sprintf(p->v[p->nv].name, "%.3s", name);
+        p->nv += 1;
     }
     return tmp;
 }
 
-int nzeroes(struct ObjectArray *p) {
-    int z = 0;
-    for (int k = 0; k < p->no; k++) {
-        if (p->o[k].distance == 0) z++;
+int totalorbits(struct VertexArray *v, const char *com, int base) {
+    int ret = base;
+    int b = find(com, v);
+    for (int k = 0; k < v->v[b].nlist; k++) {
+        ret += totalorbits(v, v->v[v->v[b].list[k]].name, base + 1);
     }
-    return z;
+    return ret;
 }
 
 int main(void) {
-    char buf[20];
     char input[NUMLINES][8] = {0};
     int numlines = 0;
+    char buf[20];
     while (fgets(buf, sizeof buf, stdin)) {
         //if (buf[3] != ')') printf("ERROR: %s", buf);
         //if (buf[7] != '\n') printf("ERROR: %s", buf);
         sprintf(input[numlines++], "%.7s", buf); // remove newline
     }
-    struct ObjectArray o[1] = {0};
+    struct VertexArray v[1] = {0};
     for (int k = 0; k < numlines; k++) {
-        findoradd(input[k], o);
-        findoradd(input[k] + 4, o);
+        findoradd(input[k], v);
+        findoradd(input[k] + 4, v);
     }
-    while (nzeroes(o) > 1) {
-        for (int k = 0; k < numlines; k++) {
-            struct Object *base = find(input[k], o);
-            struct Object *stlt = find(input[k] + 4, o);
-            if (base->distance && !stlt->distance) {
-                stlt->distance = base->distance + 1;
-            }
-            if (strncmp(base->name, "COM", 3) == 0) {
-                stlt->distance = 1;
-            }
-        }
+    for (int k = 0; k < numlines; k++) {
+        int base = find(input[k], v);
+        int stlt = find(input[k] + 4, v);
+        v->v[base].list = realloc(v->v[base].list, (v->v[base].nlist + 1) * sizeof *v->v[base].list);
+        v->v[base].list[v->v[base].nlist] = stlt;
+        v->v[base].nlist += 1;
     }
-    int tot = 0;
-    for (int k = 0; k < o->no; k++) {
-        tot += o->o[k].distance;
-    }
+    int tot = totalorbits(v, "COM", 0);
     printf("Total orbits: %d.\n", tot);
     return 0;
 }
