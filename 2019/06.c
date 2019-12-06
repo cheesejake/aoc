@@ -74,5 +74,6 @@ int main(void) {
     }
     int tot = totalorbits(v, "COM", 0);
     printf("Total orbits: %d.\n", tot);
+    for (int k = 0; k < v->nv; k++) free(v->v[k].list);
     return 0;
 }
