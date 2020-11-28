@@ -1,7 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-int main(void) {
+int part1(void) {
     int ch;
     int sign = 1;
     long long number = 0;
@@ -26,4 +26,9 @@ int main(void) {
         }
     } while (ch != EOF);
     printf("total is %lld.\n", total);
+}
+
+int main(void) {
+    printf("DAY12-PART1: ...\n", part1());
+    printf("DAY12-PART2: ...\n", part2());
 }
