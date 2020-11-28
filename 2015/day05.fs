@@ -1,7 +1,7 @@
 \ gforth day05.fs -e part# <.input-day05
 \ Make sure to add a new empty line to the end of input
 
-require global.fs
+require aoc2015.fs
 
 \ == part1 =====================================================
 create &inputword 100 allot

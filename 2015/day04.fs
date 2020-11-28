@@ -1,6 +1,6 @@
 \ gforth day04.fs -e part# <.input-day04
 
-require global.fs
+require aoc2015.fs
 
 \ == part1 =====================================================
 : part1

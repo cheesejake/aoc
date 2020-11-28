@@ -1,7 +1,7 @@
 \ gforth -d100k day03.fs -e part# <.input-day03
 \        ^^^^^^ space for `&house`
 
-require global.fs
+require aoc2015.fs
 
 \ == part1 =====================================================
 create &house 10000 2 * cells allot    \ 10000 is enough

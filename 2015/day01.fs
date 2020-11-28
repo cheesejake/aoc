@@ -2,7 +2,7 @@
 \ assume well-formed input:
 \    a single line ending with <NEWLINE>
 
-require global.fs
+require aoc2015.fs
 
 \ == part1 =====================================================
 \ read keyboard: close parenthesis -1: go down
