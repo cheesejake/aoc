@@ -24,15 +24,30 @@ long long calcscore(struct Properties *p, int a, int b, int c, int d) {
     return result;
 }
 
+long long part1(struct Properties *ing) {
+    int teaspoons[4] = {100};
+    long long maxscore = -1;
+    for (int sp = 0; sp <= 100; sp++) {
+        for (int bu = 0; bu <= 100; bu++) {
+            for (int ch = 0; ch <= 100; ch++) {
+                if (sp + bu + ch <= 100) {
+                    int ca = 100 - sp - bu - ch;
+                    long long score = calcscore(ing, sp, bu, ch, ca);
+                    if (score > maxscore) {
+                        maxscore = score;
+                    }
+                }
+            }
+        }
+    }
+    return maxscore;
+}
+
 int calccalories(struct Properties *p, int a, int b, int c, int d) {
     return a*p[0].calories + b*p[1].calories + c*p[2].calories + d*p[3].calories;
 }
 
-int main(void) {
-    struct Properties ing[4] = {{2, 0, -2, 0, 3},
-                                {0, 5, -3, 0, 3},
-                                {0, 0, 5, -1, 8},
-                                {0, -1, 0, 5, 8}};
+long long part2(struct Properties *ing) {
     int teaspoons[4] = {100};
     long long maxscore = -1;
     for (int sp = 0; sp <= 100; sp++) {
@@ -45,11 +60,19 @@ int main(void) {
                     long long score = calcscore(ing, sp, bu, ch, ca);
                     if (score > maxscore) {
                         maxscore = score;
-                        printf("Obtained score of %lld with %d, %d, %d, and %d.\n",
-                              maxscore, sp, bu, ch, ca);
                     }
                 }
             }
         }
     }
+    return maxscore;
+}
+
+int main(void) {
+    struct Properties ing[4] = {{2, 0, -2, 0, 3},
+                                {0, 5, -3, 0, 3},
+                                {0, 0, 5, -1, 8},
+                                {0, -1, 0, 5, 8}};
+    printf("DAY15-PART1: %lld\n", part1(ing));
+    printf("DAY15-PART2: %lld\n", part2(ing));
 }
