@@ -63,12 +63,23 @@ void parseline(const char *line, struct Circuit *c) {
     c[c->ndata].output = wo;
 }
 
-int main(void) {
+int part1(char (*data)[40], unsigned n) {
     struct Circuit c[1] = {0};
-    char buf[1000];
-    while (fgets(buf, sizeof buf, stdin)) {
-        buf[strlen(buf) - 1] = 0;
+    char buf[80];
+    for (unsigned k = 0; k < n; k++) {
+        strcpy(buf, ndata[k]);
         parseline(buf, c);
     }
+    return 0;
+}
+
+int main(void) {
+    char data[1000][40];
+    unsigned ndata = 0;
+    while (fgets(data[ndata], 40, stdin)) {
+        ndata++;
+    }
+    printf("DAY07-PART1: ...\n", part1(data, ndata));
+    printf("DAY07-PART2: ...\n", part2(data, ndata));
     return 0;
 }
