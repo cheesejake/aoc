@@ -34,8 +34,21 @@ dup 1- 0 do                               ( n )
       then
    loop drop loop drop 0 ;
 
-\ Part2: ...
-: part2 ( n -- result ) dup - ;
+\ Part2: brute-force with 1 more loop
+\ really should sort array and limit searching
+: part2 ( n -- result )
+dup 2 - 0 do                              ( n )
+   expenses i cells + @                   ( n val1 )
+   over 1- i 1+ do                        ( n val1 )
+      expenses i cells + @                ( n val1 val2 )
+      2 pick i 1+ do                      ( n val1 val2 )
+         expenses i cells + @             ( n val1 val2 val3 )
+         2 pick 2 pick 2 pick + + 2020 = if
+            unloop unloop unloop * * swap drop exit
+         then
+         drop loop
+      drop loop
+   drop loop 0 * ;
 
 expenses s" .day01-input" input>array          ( n )
 .( DAY 01, PART 1: ) dup part1 . cr            ( n )
