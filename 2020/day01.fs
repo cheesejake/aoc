@@ -1,4 +1,4 @@
-\ template for FORTH puzzles                          2020-12-01
+\ Advent of Code, Day 01                              2020-12-01
 
 : open-input                                    ( fname -- fid )
 ( fname ) r/o open-file abort" open failed" ;
@@ -23,6 +23,8 @@ drop close-input drop ;
 
 create expenses 250 cells allot                \ array for input
 
+\ Part1: brute-force FTW
+\ should sort array and limit searching
 : part1 ( n -- result )
 dup 1- 0 do                               ( n )
    2020 expenses i cells + @ -            ( n 2020-val )
@@ -31,9 +33,11 @@ dup 1- 0 do                               ( n )
          unloop unloop swap drop 2020 over - * exit
       then
    loop drop loop drop 0 ;
-: part2 ( n -- result )  dup - ;
+
+\ Part2: ...
+: part2 ( n -- result ) dup - ;
 
 expenses s" .day01-input" input>array          ( n )
 .( DAY 01, PART 1: ) dup part1 . cr            ( n )
 .( DAY 01, PART 2: ) part2 . cr                ( )
-cr cr .s bye
+cr .s cr bye
