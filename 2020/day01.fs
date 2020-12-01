@@ -3,6 +3,9 @@
 \ Assume no bad input, no overflows, enough space allocated, ...
 \ Assume lines have 80 characters or fewer
 
+\ call with eg:
+\ gforth day01.fs day01-input-test
+
 : open-input ( c-addr u -- fid )
 r/o open-file abort" open failed" ;
 
