@@ -50,7 +50,11 @@ dup 2 - 0 do expenses i cells + @
             unloop unloop unloop * * swap drop exit then
    drop loop drop loop drop loop 0 * ;
 
-expenses s" .day01-input" input>array
+: fetch-filename ( -- c-addr u )
+next-arg dup 0= abort" syntax: gforth day01.fs <input-file-name>" ;
+
+\ next-arg pushes counted string from command line; 0 0 if unavailable
+expenses fetch-filename input>array
 .( DAY 01, PART 1: ) dup part1 . cr
 .( DAY 01, PART 2: ) part2 . cr
 bye
