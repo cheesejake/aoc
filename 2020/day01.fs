@@ -1,10 +1,12 @@
 \ Advent of Code, Day 01                              2020-12-01
 \ Assume everything works :)
-\ Assume no bad input, no overflows, enough space allocated, ...
-\ Assume lines have 80 characters or fewer
+\ Assume no bad input, no overflows, enough space allocated
+\ Assume lines have 80 characters or fewer ( PAD size >= 84)
 
 \ call with eg:
 \ gforth day01.fs day01-input-test
+\                 ^^^^^^^^^^^^^^^^
+\ uses gforth's "next-arg" word to identify the input file
 
 : open-input ( c-addr u -- fid )
 r/o open-file abort" open failed" ;
@@ -13,14 +15,10 @@ r/o open-file abort" open failed" ;
 close-file abort" close failed" ;
 
 : input>pad ( fid -- u flag ; pad changed )
-\ According to Forth Standard, size of the scratch area whose
-\ address is returned by PAD shall be at least 84 characters.
-\ reads up to 80 characters from file to pad
-\ stack holds quantity read and flag (0 means no input)
 pad 80 rot read-line abort" read failed" ;
 
 : pad>number ( u -- n )
-\ converts the first n digits in pad to number
+\ converts the first u digits in pad to number
 0 0 rot pad swap >number drop drop d>s ;
 
 \ leave number of elements read on TOS
@@ -28,8 +26,7 @@ pad 80 rot read-line abort" read failed" ;
 open-input 0 rot rot
 begin
    dup input>pad while
-   pad>number
-   2 pick 4 pick cells + !
+   pad>number 2 pick 4 pick cells + !
    rot 1+ rot rot repeat
 drop close-input drop ;
 
@@ -55,8 +52,8 @@ dup 2 - 0 do expenses i cells + @
 
 : fetch-filename ( -- c-addr u )
 next-arg dup 0= abort" syntax: gforth day01.fs <input-file-name>" ;
-
 \ next-arg pushes counted string from command line; 0 0 if unavailable
+
 expenses fetch-filename input>array
 .( DAY 01, PART 1: ) dup part1 . cr
 .( DAY 01, PART 2: ) part2 . cr
