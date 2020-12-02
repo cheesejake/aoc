@@ -33,8 +33,13 @@ pad 80 rot read-line abort" read failed" ;
    drop drop dup >r >= swap r> <= and negate ;
 
 \ Part2: input `u` chars from PAD line by line;
-: part2 ( u -- 1 )
-   drop 1 ;
+: part2 ( u -- 0|1 )
+   0 0 rot pad swap >number
+   1- >r 1+ >r d>s 0 0 r> r> >number
+   1- >r 1+ >r d>s r> r> over c@
+   swap drop swap 2 +
+   rot over + c@ >r rot + c@
+   over = swap r> = + -1 = if 1 else 0 then ;
 
 variable count1 0 count1 !
 variable count2 0 count2 !
