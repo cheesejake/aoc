@@ -22,16 +22,17 @@ close-file abort" close failed" ;
 : input>pad ( fid -- u flag ; pad changed )
 pad 80 rot read-line abort" read failed" ;
 
-: pad>number ( u -- n )
-\ converts the first u digits in pad to number
-0 0 rot pad swap >number drop drop d>s ;
-
-\ Part1: input from PAD line by line;
+\ Part1: input `u` chars from PAD line by line;
 \        output 0 (invalid) or 1 (valid)
 : part1 ( u -- 0|1 )
-   0 * ;
+   0 0 rot pad swap >number
+   1- >r 1+ >r d>s 0 0 r> r> >number
+   1- >r 1+ >r d>s r> r> over c@
+   rot 3 + rot 3 - >r >r >r 0 r> r> r> 0 do
+      dup i + c@ 2 pick = if rot 1+ rot rot then loop
+   drop drop dup >r >= swap r> <= and negate ;
 
-\ Part2:
+\ Part2: input `u` chars from PAD line by line;
 : part2 ( u -- 1 )
    drop 1 ;
 
@@ -39,9 +40,9 @@ variable count1 0 count1 !
 variable count2 0 count2 !
 
 : do-lines ( -- )
-next-arg open-input                           ( fid )
-begin dup input>pad while                     ( fid u )
-   dup part1 count1 +! part2 count2 +! repeat ( fid )
+next-arg open-input
+begin dup input>pad while
+   dup part1 count1 +! part2 count2 +! repeat
 drop close-input ;
 
 do-lines
