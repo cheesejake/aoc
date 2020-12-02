@@ -1,4 +1,4 @@
-\ Advent of Code, Day 02                              2020-12-01
+\ Advent of Code, Day 02                              2020-12-02
 \ Assume everything works :)
 \ Assume no bad input, no overflows, enough space allocated
 \ Assume lines have 80 characters or fewer ( PAD size >= 84)
