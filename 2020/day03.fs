@@ -52,11 +52,11 @@ variable width                      \ effective width from input
 \ Part2:
 : part2 ( nlines -- prod )
    1 swap                                ( 1 nl )
-   dup 1 1 rot slope dup . rot * swap          ( t*1 nl )
-   dup 3 1 rot slope dup . rot * swap          ( P*t nl )
-   dup 5 1 rot slope dup . rot * swap          ( P*t nl )
-   dup 7 1 rot slope dup . rot * swap          ( P*t nl )
-   dup 1 2 rot slope dup . rot * swap          ( P*t nl )
+   dup 1 1 rot slope rot * swap          ( t*1 nl )
+   dup 3 1 rot slope rot * swap          ( P*t nl )
+   dup 5 1 rot slope rot * swap          ( P*t nl )
+   dup 7 1 rot slope rot * swap          ( P*t nl )
+   dup 1 2 rot slope rot * swap          ( P*t nl )
    drop ;
 
 : read-input ( -- n ) \ number of lines read
