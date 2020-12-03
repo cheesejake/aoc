@@ -44,7 +44,7 @@ variable width                      \ effective width from input
 : slope ( deltacols deltarows nlines -- ntrees )
    0 0 ( ntrees col ) rot 0 do                ( c r ntrees col )
    3 pick + dup width @ mod      ( c r ntrees col+3 col3%width )
-   i 1+ maxcolumns *
+   3 pick i + maxcolumns *
    mapmod[] + + c@            ( c r ntrees col+3 ch )
    '#' = if swap 1+ swap then ( c r ntrees col+3 )
    2 pick +loop drop swap drop swap drop ;
@@ -52,11 +52,11 @@ variable width                      \ effective width from input
 \ Part2:
 : part2 ( nlines -- prod )
    1 swap                                ( 1 nl )
-   dup 1 1 rot slope rot * swap          ( t*1 nl )
-   dup 3 1 rot slope rot * swap          ( P*t nl )
-   dup 5 1 rot slope rot * swap          ( P*t nl )
-   dup 7 1 rot slope rot * swap          ( P*t nl )
-   dup 1 2 rot slope rot * swap          ( P*t nl )
+   dup 1 1 rot slope dup . rot * swap          ( t*1 nl )
+   dup 3 1 rot slope dup . rot * swap          ( P*t nl )
+   dup 5 1 rot slope dup . rot * swap          ( P*t nl )
+   dup 7 1 rot slope dup . rot * swap          ( P*t nl )
+   dup 1 2 rot slope dup . rot * swap          ( P*t nl )
    drop ;
 
 : read-input ( -- n ) \ number of lines read
