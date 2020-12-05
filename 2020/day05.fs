@@ -69,7 +69,7 @@ cells a:seat + r> swap !
 cells a:seat + r> swap ! ;
 
 : asort ( -- )
-1 a:seat @ 1- do i 1+ 1 do                  ( 0 4 do 4 1 do )
+1 a:seat @ 1- do i 1+ 1 do
    i ax i 1+ ax > if
    i i 1+ aijswap then
 loop -1 +loop ;
@@ -84,8 +84,8 @@ loop ;
 asort finddelta1 ;
 
 : work ( -- )
-begin fid input>binvalues dup -1 <> while ( r s )
-   2dup solve1 solve2 repeat              ( )
+begin fid input>binvalues dup -1 <> while
+   2dup solve1 solve2 repeat
    drop drop finish2 ;
 
 : finish ( -- )
