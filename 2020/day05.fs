@@ -48,19 +48,52 @@ swap 8 * + ;
 : solve1 ( row col -- ; maxx updated )
 row/col>seatid maxx max to maxx ;
 
+variable a:seat 1000 cells allot \ a:seat @ number of elements
+                                 \ a:seat 1 cells + @ 1st element
+                                 \ ...
+                                 \ a:seat a:seat @ cells + @ last elements
+0 a:seat !                       \ empty array
+
+: seat>array ( seat -- )
+a:seat dup @ 1+ dup a:seat ! cells + !  ;
+
 : solve2 ( row col -- )
-drop drop ;
+row/col>seatid seat>array ;
+
+: ax ( n -- nth-elem )
+cells a:seat + @ ;
+
+: aijswap ( j i -- )
+2dup ax swap ax 2>r
+cells a:seat + r> swap !
+cells a:seat + r> swap ! ;
+
+: asort ( -- )
+1 a:seat @ 1- do i 1+ 1 do                  ( 0 4 do 4 1 do )
+   i ax i 1+ ax > if
+   i i 1+ aijswap then
+loop -1 +loop
+;
+
+0 value myseat
+: finddelta1 ( -- )
+a:seat @ 1 do i ax i 1+ ax - -2 = if
+   i ax 1+ to myseat unloop exit then
+loop ;
+
+: finish2 ( -- )
+asort finddelta1 ;
 
 : work ( -- )
 begin fid input>binvalues dup -1 <> while ( r s )
    2dup solve1 solve2 repeat              ( )
-;
+   drop drop finish2 ;
 
 : finish ( -- )
 fid close-file abort" close error" ;
 
 : report ( -- )
 ." Day 4, part 1: " maxx . cr
-." Day 4, part 2: " -1 . cr ;
+." Day 4, part 2: " myseat . cr ;
 
 setup work finish report BYE
