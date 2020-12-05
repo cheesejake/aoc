@@ -72,8 +72,7 @@ cells a:seat + r> swap ! ;
 1 a:seat @ 1- do i 1+ 1 do                  ( 0 4 do 4 1 do )
    i ax i 1+ ax > if
    i i 1+ aijswap then
-loop -1 +loop
-;
+loop -1 +loop ;
 
 0 value myseat
 : finddelta1 ( -- )
