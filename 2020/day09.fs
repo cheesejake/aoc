@@ -2,6 +2,7 @@
 \ Assume everything works :)
 \ Assume no bad input, no overflows, enough space allocated
 \ Assume lines have 80 characters or fewer ( PAD size >= 84)
+\ Assume cells are 64-bits
 
 \ call with eg:
 \ gforth -e '5 constant preamble' day09.fs day09-input-test
