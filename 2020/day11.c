@@ -2,33 +2,29 @@
 #include <stdlib.h>
 #include <string.h>
 
+int countneighbours(char (*x)[120], int n, int row, int col) {
+    int v = 0;
+    if ((row > 0)     && (col > 0)     && (x[row-1][col-1] == '#')) ++v;
+    if ((row > 0)                      && (x[row-1][col] == '#'))   ++v;
+    if ((row > 0)     && (col < n - 1) && (x[row-1][col+1] == '#')) ++v;
+    if (                 (col > 0)     && (x[row][col-1] == '#'))   ++v;
+    if (                 (col < n - 1) && (x[row][col+1] == '#'))   ++v;
+    if ((row < n - 1) && (col > 0)     && (x[row+1][col-1] == '#')) ++v;
+    if ((row < n - 1)                  && (x[row+1][col] == '#'))   ++v;
+    if ((row < n - 1) && (col < n - 1) && (x[row+1][col+1] == '#')) ++v;
+    return v;
+}
+
 void evolve(char (*dst)[120], char (*src)[120], int n) {
     for (int row = 0; row < n; row++) {
         for (int col = 0; src[row][col] != 0; col++) {
             dst[row][col] = src[row][col];
+            int nn = countneighbours(src, n, row, col);
             if (src[row][col] == 'L') {
-                int neighbours = 0;
-                if ((row > 0)     && (col > 0)     && (src[row-1][col-1] == '#')) ++neighbours;
-                if ((row > 0)                      && (src[row-1][col] == '#'))   ++neighbours;
-                if ((row > 0)     && (col < n - 1) && (src[row-1][col+1] == '#')) ++neighbours;
-                if (                 (col > 0)     && (src[row][col-1] == '#'))   ++neighbours;
-                if (                 (col < n - 1) && (src[row][col+1] == '#'))   ++neighbours;
-                if ((row < n - 1) && (col > 0)     && (src[row+1][col-1] == '#')) ++neighbours;
-                if ((row < n - 1)                  && (src[row+1][col] == '#'))   ++neighbours;
-                if ((row < n - 1) && (col < n - 1) && (src[row+1][col+1] == '#')) ++neighbours;
-                if (neighbours == 0) dst[row][col] = '#';
+                if (nn == 0) dst[row][col] = '#';
             }
             if (src[row][col] == '#') {
-                int neighbours = 0;
-                if ((row > 0)     && (col > 0)     && (src[row-1][col-1] == '#')) ++neighbours;
-                if ((row > 0)                      && (src[row-1][col] == '#'))   ++neighbours;
-                if ((row > 0)     && (col < n - 1) && (src[row-1][col+1] == '#')) ++neighbours;
-                if (                 (col > 0)     && (src[row][col-1] == '#'))   ++neighbours;
-                if (                 (col < n - 1) && (src[row][col+1] == '#'))   ++neighbours;
-                if ((row < n - 1) && (col > 0)     && (src[row+1][col-1] == '#')) ++neighbours;
-                if ((row < n - 1)                  && (src[row+1][col] == '#'))   ++neighbours;
-                if ((row < n - 1) && (col < n - 1) && (src[row+1][col+1] == '#')) ++neighbours;
-                if (neighbours >= 4) dst[row][col] = 'L';
+                if (nn >= 4) dst[row][col] = 'L';
             }
         }
     }
