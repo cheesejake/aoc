@@ -62,17 +62,50 @@ pad c@ case
    endcase
 ;
 
-: solve2 ( -- )
+0 value x2
+0 value y2
+10 value wpx
+1 value wpy
+
+: wpturnback (  ) wpx -1 * to wpx wpy -1 * to wpy ;
+
+: wpturnright ( n -- )
+dup 180 = if drop wpturnback exit then
+    270 = if wpturnback then
+    wpx wpy to wpx negate to wpy ;
+
+: wpturnleft ( n -- )
+dup 180 = if drop wpturnback exit then
+    270 = if wpturnback then
+    wpx wpy negate to wpx to wpy ;
+
+: wpmovedir ( n -- ) dup wpx * x2 + to x2 wpy * y2 + to y2 ;
+: wpmovenorth ( n -- ) wpy + to wpy ;
+: wpmovesouth ( n -- ) wpy swap - to wpy ;
+: wpmoveeast ( n -- ) wpx + to wpx ;
+: wpmovewest ( n -- ) wpx swap - to wpx ;
+
+: solve2 ( n -- )
+0 0 rot pad 1 + swap 1- >number drop drop d>s
+pad c@ case
+   'R' of wpturnright endof
+   'L' of wpturnleft endof
+   'F' of wpmovedir endof
+   'N' of wpmovenorth endof
+   'S' of wpmovesouth endof
+   'E' of wpmoveeast endof
+   'W' of wpmovewest endof
+   endcase
 ;
 
 : work ( -- )
-begin fid>pad while solve1 repeat drop solve2 ;
+begin fid>pad while dup solve1 solve2 repeat drop ;
 
 : finish ( -- )
 fid close-file abort" close error" ;
 
 : report ( -- )
 ." Day 12, part 1: " x abs y abs + . cr
-." Day 12, part 2: " direction . cr ;
+." Day 12, part 2: " x2 abs y2 abs + . cr ;
 
 setup work finish report BYE
