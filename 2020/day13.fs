@@ -34,12 +34,7 @@ pad 80 fid read-line abort" read error" drop
 dup minwait min to minwait ;
 
 : step-solve1 ( bus -- )
-mintime
-over
-waittime
-dup
-minwait
-=
+mintime over waittime dup minwait =
 if 2dup * to answer1 then
 2drop ;
 
@@ -52,8 +47,11 @@ pad 1 fid read-file abort" read error" pad c@ swap ;
 : isdigit? ( ch -- flag )
 dup [char] 0 >= swap [char] 9 <= and ;
 
+-1 value buspos
 : file>bus ( -- bus | 0 )
+buspos 1+ to buspos
 0 begin file>ch while
+   dup [char] x = if buspos 1+ to buspos then
    dup isdigit?
       if '0' - swap 10 * +
       else drop dup 0 <> if exit then
@@ -61,7 +59,9 @@ dup [char] 0 >= swap [char] 9 <= and ;
 ;
 
 : work ( -- )
-begin file>bus dup while step-solve1 repeat drop ;
+begin file>bus dup while
+." found bus with id " dup . ." at position " buspos . cr
+step-solve1 repeat drop ;
 
 : finish ( -- )
 fid close-file abort" close error" ;
