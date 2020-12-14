@@ -36,6 +36,14 @@ mintime over waittime dup minwait =
 if 2dup * to answer1 then
 2drop ;
 
+: gcd ( n1 n2 -- gcd )
+\ assume n1 and n2 are co-prime :)
+\ drop drop 1 ;
+begin 2dup dup while mod rot drop repeat drop drop drop ;
+
+: lcm ( n1 n2 -- lcm )
+2dup * rot rot gcd / ;
+
 0 value divisor
 0 value remainder
 0 value multiplier
@@ -51,7 +59,7 @@ begin
    mod remainder
    <> while
    multiplier 1+ to multiplier repeat
-basis dup divisor * to basis
+basis dup divisor lcm to basis
 multiplier * delta + to delta ;
 
 : file>ch ( -- ch flag )
