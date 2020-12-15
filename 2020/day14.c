@@ -101,7 +101,6 @@ void do2mem(struct Memory *mem, long long unsigned a,
             do2mem(mem, a, v, m, len+1, 2*amask+0, 2*omask+0);
             do2mem(mem, a, v, m, len+1, 2*amask+1, 2*omask+1);
         }
-
     }
 }
 
