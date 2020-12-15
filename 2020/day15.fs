@@ -1,3 +1,14 @@
+\ Advent of Code, Day 15                              2020-12-15
+\ Assume everything works :)
+\ Assume no bad input, no overflows, enough space allocated
+\ Assume lines have 80 characters or fewer ( PAD size >= 84)
+\ Assume 64 bits cells
+
+\ call with:
+\ gforth day15.fs
+
+: >>>debug<<< ( c-addr u -- ) type ."  ==> " .s cr ;
+
 0 value data
 
 : setup
