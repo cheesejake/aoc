@@ -9,7 +9,7 @@ void quit(const char *msg) {
 }
 
 struct Range { int lo1, hi1, lo2, hi2; };
-typedef int Ticket[20];
+typedef int Ticket[21];
 
 void parseinput(const char *filename, struct Range *r, int *nr,
                 Ticket t, Ticket *n, int *nn) {
@@ -64,10 +64,58 @@ void part1(struct Range *r, int nr, Ticket *n, int nn) {
                     errors++;
                 }
             }
-            if (errors == nr) error += n[tt][uu];
+            if (errors == nr) {
+                error += n[tt][uu];
+                n[tt][20] = 1;   // invalidate ticket for part 2
+            }
         }
     }
     printf("Day 16, part 1: %d\n", error);
+}
+
+void part2(struct Range *r, int nr, Ticket *n, int nn) {
+    int arrangements[20][20] = {0};
+    for (int kk = 0; kk < nn; kk++) {
+        if (n[kk][20] == 1) continue;  // ignore invalid tickets
+        for (int row = 0; row < 20; row++) {
+            for (int col = 0; col < 20; col++) {
+                if (!inrange(n[kk][col], r[row])) {
+                    arrangements[row][col] = 1;
+                }
+            }
+        }
+    }
+    /* examine the output and keep adding restrictions :-)
+    for (int kk = 0; kk < 20; kk++) if (kk != 15) arrangements[kk][18] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 18) arrangements[kk][9] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 9) arrangements[kk][13] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 14) arrangements[kk][3] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 3) arrangements[kk][2] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 5) arrangements[kk][17] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 2) arrangements[kk][19] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 1) arrangements[kk][6] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 4) arrangements[kk][16] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 0) arrangements[kk][1] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 12) arrangements[kk][5] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 8) arrangements[kk][7] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 13) arrangements[kk][10] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 16) arrangements[kk][8] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 11) arrangements[kk][4] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 7) arrangements[kk][11] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 19) arrangements[kk][0] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 6) arrangements[kk][15] = 1;
+    for (int kk = 0; kk < 20; kk++) if (kk != 10) arrangements[kk][12] = 1;
+    */
+    // TODO: do these restrictions programatically
+    printf("col       0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19\n");
+    for (int row = 0; row < 20; row++) {
+        printf("row %2d |", row);
+        for (int col = 0; col < 20; col++) {
+            if (arrangements[row][col] == 0) printf(" xx");
+            else printf("   ");
+        }
+        printf(" |\n");
+    }
 }
 
 int main(int argc, char **argv) {
@@ -78,10 +126,11 @@ int main(int argc, char **argv) {
     struct Range validranges[20];
     int nranges = 0;
     Ticket myticket;
-    Ticket nearby[250];
+    Ticket nearby[250] = {0};
     int nnearbys = 0;
     parseinput(argv[1], validranges, &nranges,
                         myticket,
                         nearby, &nnearbys);
     part1(validranges, nranges, nearby, nnearbys);
+    part2(validranges, nranges, nearby, nnearbys);
 }
