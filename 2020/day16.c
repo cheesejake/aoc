@@ -73,6 +73,13 @@ void part1(struct Range *r, int nr, Ticket *n, int nn) {
     printf("Day 16, part 1: %d\n", error);
 }
 
+int colofrow(int a[20][20], int row) {
+    int col;
+    for (col = 0; col < 20; col++) if (a[row][col] == -1) return col;
+    printf("This should not have happened.\n");
+    return -1;
+}
+
 void part2(struct Range *r, int nr, Ticket *n, int nn, Ticket my) {
     int arrangements[20][20] = {0};
     for (int kk = 0; kk < nn; kk++) {
@@ -85,46 +92,33 @@ void part2(struct Range *r, int nr, Ticket *n, int nn, Ticket my) {
             }
         }
     }
-    /* examine the output and keep adding restrictions :-)
-    for (int kk = 0; kk < 20; kk++) if (kk != 15) arrangements[kk][18] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 18) arrangements[kk][9] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 9) arrangements[kk][13] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 14) arrangements[kk][3] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 3) arrangements[kk][2] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 5) arrangements[kk][17] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 2) arrangements[kk][19] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 1) arrangements[kk][6] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 4) arrangements[kk][16] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 0) arrangements[kk][1] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 12) arrangements[kk][5] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 8) arrangements[kk][7] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 13) arrangements[kk][10] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 16) arrangements[kk][8] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 11) arrangements[kk][4] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 7) arrangements[kk][11] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 19) arrangements[kk][0] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 6) arrangements[kk][15] = 1;
-    for (int kk = 0; kk < 20; kk++) if (kk != 10) arrangements[kk][12] = 1;
-    */
-    // TODO: do these restrictions programatically
-    /* print restrictions
-    printf("col       0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19\n");
-    for (int row = 0; row < 20; row++) {
-        printf("row %2d |", row);
-        for (int col = 0; col < 20; col++) {
-            if (arrangements[row][col] == 0) printf(" xx");
-            else printf("   ");
+
+    for (int reduce = 0; reduce < 20; reduce++) {
+        // find the first row with a single 0
+        int row, col, ccol = -1, found;
+        for (row = 0; row < 20; row++) {
+            found = 0;
+            for (col = 0; col < 20; col++) {
+                if (arrangements[row][col] == 0) { found++; ccol = col; }
+            }
+            if (found == 1) break;
         }
-        printf(" |\n");
+        if (found != 1) {
+            printf("This should not have happened.\n");
+        }
+        // change all values in that column to 1
+        for (int row2 = 0; row2 < 20; row2++) arrangements[row2][ccol] = 1;
+        // change the row,col value to -1
+        arrangements[row][ccol] = -1;
     }
-    */
+
     long long unsigned mm = 1;
-    mm *= my[1];
-    mm *= my[6];
-    mm *= my[19];
-    mm *= my[2];
-    mm *= my[16];
-    mm *= my[17];
+    mm *= my[colofrow(arrangements, 0)];
+    mm *= my[colofrow(arrangements, 1)];
+    mm *= my[colofrow(arrangements, 2)];
+    mm *= my[colofrow(arrangements, 3)];
+    mm *= my[colofrow(arrangements, 4)];
+    mm *= my[colofrow(arrangements, 5)];
     printf("Day 16, part 2: %llu\n", mm);
 }
 
