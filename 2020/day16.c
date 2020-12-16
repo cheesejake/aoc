@@ -73,7 +73,7 @@ void part1(struct Range *r, int nr, Ticket *n, int nn) {
     printf("Day 16, part 1: %d\n", error);
 }
 
-void part2(struct Range *r, int nr, Ticket *n, int nn) {
+void part2(struct Range *r, int nr, Ticket *n, int nn, Ticket my) {
     int arrangements[20][20] = {0};
     for (int kk = 0; kk < nn; kk++) {
         if (n[kk][20] == 1) continue;  // ignore invalid tickets
@@ -107,6 +107,7 @@ void part2(struct Range *r, int nr, Ticket *n, int nn) {
     for (int kk = 0; kk < 20; kk++) if (kk != 10) arrangements[kk][12] = 1;
     */
     // TODO: do these restrictions programatically
+    /* print restrictions
     printf("col       0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19\n");
     for (int row = 0; row < 20; row++) {
         printf("row %2d |", row);
@@ -116,6 +117,15 @@ void part2(struct Range *r, int nr, Ticket *n, int nn) {
         }
         printf(" |\n");
     }
+    */
+    long long unsigned mm = 1;
+    mm *= my[1];
+    mm *= my[6];
+    mm *= my[19];
+    mm *= my[2];
+    mm *= my[16];
+    mm *= my[17];
+    printf("Day 16, part 2: %llu\n", mm);
 }
 
 int main(int argc, char **argv) {
@@ -132,5 +142,5 @@ int main(int argc, char **argv) {
                         myticket,
                         nearby, &nnearbys);
     part1(validranges, nranges, nearby, nnearbys);
-    part2(validranges, nranges, nearby, nnearbys);
+    part2(validranges, nranges, nearby, nnearbys, myticket);
 }
